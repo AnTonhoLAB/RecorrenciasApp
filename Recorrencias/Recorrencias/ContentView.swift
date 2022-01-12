@@ -17,19 +17,26 @@ struct ContentView: View {
     private var items: FetchedResults<Item>
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+        NavigationView{
+            List {
+                ForEach(items) { item in
+                    Text("item no \(item.timestamp!, formatter: itemFormatter)")
+                }
+                .onDelete(perform: deleteItems)
+                
             }
-            .onDelete(perform: deleteItems)
-        }
-        .toolbar {
-            #if os(iOS)
-            EditButton()
-            #endif
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    #if os(iOS)
+                    EditButton()
+                    #endif
+                }
 
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: addItem) {
+                    Label("Add", systemImage: "plus")
+                    }
+                }
             }
         }
     }
